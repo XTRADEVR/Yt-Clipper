@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AUTOCLIP - Clipper YouTube Otomatis</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>AUTO<span>CLIP</span></h1>
+      <p>Tempel link YouTube, dapatkan klip pendek otomatis siap unduh.</p>
+    </header>
+
+    {% if not ffmpeg_ok %}
+    <div class="alert alert-error" role="alert">
+      <strong>FFmpeg belum terpasang.</strong>
+      Pemrosesan tidak akan berjalan sebelum FFmpeg dipasang. Lihat bagian prasyarat di README.md.
+    </div>
+    {% endif %}
+
+    <section class="card">
+      <form id="clip-form" novalidate>
+        <label for="url-input">Link video YouTube</label>
+        <input id="url-input" type="url" inputmode="url" autocomplete="off"
+               placeholder="https://www.youtube.com/watch?v=..." required>
+
+        <label for="clip-length">Durasi tiap klip</label>
+        <select id="clip-length">
+          {% for seconds in range(min_clip, max_clip + 1, 15) %}
+          <option value="{{ seconds }}" {% if seconds == default_clip %}selected{% endif %}>{{ seconds }} detik</option>
+          {% endfor %}
+        </select>
+
+        <button id="submit-btn" type="submit">Buat Klip</button>
+        <p class="hint">Batas video {{ max_video_minutes }} menit &middot; maksimal {{ max_clips }} klip per video.</p>
+      </form>
+
+      <p id="form-error" class="alert alert-error" role="alert" hidden></p>
+    </section>
+
+    <section id="progress-section" class="card" hidden>
+      <div class="progress-head">
+        <span id="progress-message">Memulai...</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+    </section>
+
+    <section id="results-section" hidden>
+      <h2 id="results-title">Hasil Klip</h2>
+      <div id="results-grid" class="grid"></div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Gunakan hanya untuk video milik sendiri, berlisensi terbuka, atau yang Anda punya izin
+        untuk mengunduhnya. Pengunduhan konten YouTube harus sesuai hak cipta dan
+        <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener noreferrer">Ketentuan Layanan YouTube</a>.
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    window.AUTOCLIP_CONFIG = {
+      pollIntervalMs: 1500
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+          </html>
