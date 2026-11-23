@@ -1,0 +1,31 @@
+# Hasil unduhan dan klip (jangan diunggah)
+downloads/*
+!downloads/.gitkeep
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# File rahasia dan konfigurasi lokal
+.env
+.env.*
+cookies.txt
+
+# File sementara video
+*.part
+*.ytdl
+*.mp4
+*.webm
+*.mkv
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
